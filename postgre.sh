@@ -76,6 +76,43 @@ function editSettings {
    
     loadSettings
 }
+function settings {    
+
+    if [ ! -f ~/.settings_pgcool ]; then       
+        #settings found
+        head;
+        p "\n\n\tIt's your first time using the script in this computer let's configure at all. "
+                
+        editSettings
+        
+        warn "Please verify that you running this shell script as: "
+        doing "$ source script.sh "
+        warn "Instead of "
+        doing "$ bash script.sh "
+        warn "To alias work to you"
+        doing "Creating alias: dbcool"        
+        finished "Now you just call: dbcool in terminal."
+        warn "if you don't execute as source script.sh execute: alias dbcool='bash $DIR/postgre.sh'"
+
+        read t -p  
+    else
+        #reading settings        
+        loadSettings;
+    fi
+}
+function help {
+    head
+    p "\n\t******* Help center \n"    
+    error "*Permissions to execute postgres calls"
+    p " If can't you execute: psql -U $USER "
+    doing "\t$ locate pg_hba.conf"
+    p "\tat the line: "
+    p "\tlocal         all             postgres            peer"
+    p "\tinstead peer you use: md5;"
+    p "\tAfter this restart postegrsql"
+    doing "\t$ sudo service postgresql restar"    
+}
+
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )";
 DATABASE=defaultDatabase
