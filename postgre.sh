@@ -36,7 +36,6 @@ function warn {
 function error {
     printf "\n\n\t${red}$1$2$3${wht}"
 }
-
 function showMenu {
     head;
     subHead;    
@@ -47,6 +46,35 @@ function showMenu {
     printf "\n\t5) Change settings"   
     printf "\n\tQ) Quit"
     printf "\n\n\tOption: "
+}
+function loadSettings {
+    doing "Loading settings"
+    DATABASE="$(sed -n '1p' < ~/.settings_pgcool)";
+    USER="$(sed -n '2p' < ~/.settings_pgcool)";
+    PASS="$(sed -n '3p' < ~/.settings_pgcool)";
+    finished "Settings loaded"
+}
+function editSettings {        
+    inputU "\n\n\tDatabase name"
+    read DATABASE
+    inputU "User"
+    read USER
+    inputU "Password"    
+    read PASS
+    #storing variables
+    if [ ! -d $DIR/backups ]; then  
+        doing "Creating backup folder at: $DIR/backups\n\t${wht}"
+        mkdir $DIR/backups
+    fi
+    doing "Saving settings..."        
+    touch ~/.settings_pgcool
+    #with just one > to clean content if exist.
+    echo $DATABASE > ~/.settings_pgcool
+    echo $USER >> ~/.settings_pgcool
+    echo $PASS >> ~/.settings_pgcool    
+    finished "Settings saved with success! "
+   
+    loadSettings
 }
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )";
