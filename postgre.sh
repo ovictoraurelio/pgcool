@@ -148,7 +148,7 @@ do
             finished "Database successfully updated!"
         ;;
         2)  
-            doing "Updating sises.sql\n"       
+            doing "Updating $DATABASE.sql\n"       
             PGPASSWORD="$PASS" pg_dump -U $USER  $DATABASE > $DIR/$DATABASE.sql ;
             finished "Script successfully updated!";
         ;;
