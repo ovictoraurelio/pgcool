@@ -9,6 +9,15 @@
 # ♥
 # ♥ ♥ ♥ ♥ ♥ ♥ ♥ ♥ ♥ ♥ ♥ ♥ ♥ ♥ ♥ ♥ ♥ ♥ ♥ ♥ 
 
+function head {
+    clear;        
+    printf "${wht}\n\n\t---------------------  SYNC OF POSTGRES DB ---------------------- ";    
+    printf "\n\n\n\t\t\t\t\t\t made by @ovictoraurelio\n\t\t\t\t\t\t\t  type H to help";    
+}
+function subHead {
+    printf "\n\n\n\tDB: ${blu}$DATABASE ${wht}| User: ${blu}$USER ${wht}| Password: ${blu}$PASS${wht}"
+    printf "\n\tDB Folder at directory: ${yel}$DIR${wht}"
+}
 function inputU {
     printf "\t${wht}$1: ${blu}" 
 }
@@ -26,6 +35,18 @@ function warn {
 }
 function error {
     printf "\n\n\t${red}$1$2$3${wht}"
+}
+
+function showMenu {
+    head;
+    subHead;    
+    printf "\n\n\n\t1) Update my Database "
+    printf "\n\t2) Update script to sync "
+    printf "\n\t3) Create a backup "
+    printf "\n\t4) Restore to my last backup"
+    printf "\n\t5) Change settings"   
+    printf "\n\tQ) Quit"
+    printf "\n\n\tOption: "
 }
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )";
