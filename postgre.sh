@@ -8,6 +8,26 @@
 # ♥					@website http://victoraurelio.com
 # ♥
 # ♥ ♥ ♥ ♥ ♥ ♥ ♥ ♥ ♥ ♥ ♥ ♥ ♥ ♥ ♥ ♥ ♥ ♥ ♥ ♥ 
+
+function inputU {
+    printf "\t${wht}$1: ${blu}" 
+}
+function p {
+    printf "\n\t${wht}$1$2$3"
+}
+function doing {
+    printf "\n\t${blu}$1$2$3${yel}"
+}
+function finished {
+    printf "\n\n\t${gre}$1$2$3${yel}"
+}
+function warn {
+    printf "\n\t${yel}$1$2$3"
+}
+function error {
+    printf "\n\n\t${red}$1$2$3${wht}"
+}
+
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )";
 DATABASE=defaultDatabase
 USER=defaultUser
