@@ -90,9 +90,10 @@ function settings {
         warn "Instead of "
         doing "$ bash script.sh "
         warn "To alias work to you"
-        doing "Creating alias: dbcool"        
-        finished "Now you just call: dbcool in terminal."
-        warn "if you don't execute as source script.sh execute: alias dbcool='bash $DIR/postgre.sh'"
+        doing "Creating alias: pgcool"
+        alias pgcool='bash $DIR/postgre.sh'        
+        finished "Now you just call: pgcool in terminal."
+        warn "if you don't execute as source script.sh execute: alias pgcool='bash $DIR/postgre.sh'"
 
         read t -p  
     else
