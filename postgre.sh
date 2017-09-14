@@ -40,10 +40,15 @@ function showMenu {
     head;
     subHead;    
     printf "\n\n\n\t1) Update my Database "
-    printf "\n\t2) Update script to sync "
-    printf "\n\t3) Create a backup "
-    printf "\n\t4) Restore to my last backup"
-    printf "\n\t5) Change settings"   
+    printf "\n\t2) Update structure of my database"
+    printf "\n\t3) Update script to sync "
+    printf "\n\t4) Create a backup all data "
+    printf "\n\t5) Create a backup of structure "    
+    printf "\n\t6) Restore to my last backup"
+    printf "\n\t7) Change settings"   
+    printf "\n\t8) Create data"
+    printf "\n\t9) Update data"
+    printf "\n\t10) Drop database and create new"
     printf "\n\tQ) Quit"
     printf "\n\n\tOption: "
 }
@@ -121,6 +126,20 @@ function createBackup {
     finished "Backup successfully created."
 }
 
+function createStructureBackup {
+    doing "Creating backup only structure... "    
+    CURDATE="$(date +"%Y%m%d%H%M")"
+    PGPASSWORD="$PASS" pg_dump --schema-only  -U $USER  $DATABASE > $DIR/structure_$DATABASE.sql
+    finished "Backup successfully created."
+}
+
+function createDataBackup {
+    doing "Creating backup only data... "    
+    CURDATE="$(date +"%Y%m%d%H%M")"
+    PGPASSWORD="$PASS" pg_dump  --column-inserts --data-only  -U $USER  $DATABASE > $DIR/data_$DATABASE.sql
+    finished "Backup successfully created."   
+}
+
 function dropCreate {
     createBackup
     doing "Drop current database...";    
@@ -131,6 +150,20 @@ function dropCreate {
     else 
         error "Please close POSTICO haha.\n";
     fi
+}
+
+function updateStructure {
+    doing "updating structure"
+    CURDATE="$(date +"%Y%m%d%H%M")"
+    PGPASSWORD="$PASS" psql -U $USER -d $DATABASE -f $DIR/structure_$DATABASE.sql
+    finished "Structure successfully created."
+}
+
+function updateData {
+    doing "updating structure"
+    CURDATE="$(date +"%Y%m%d%H%M")"
+    PGPASSWORD="$PASS" psql -U $USER -d $DATABASE -f $DIR/data_$DATABASE.sql
+    finished "Structure successfully created."
 }
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )";
@@ -148,15 +181,21 @@ do
             PGPASSWORD="$PASS" psql -U $USER  -d $DATABASE -f $DIR/$DATABASE.sql ;
             finished "Database successfully updated!"
         ;;
-        2)  
+        2)
+            updateStructure
+        ;;
+        3)  
             doing "Updating $DATABASE.sql\n"       
             PGPASSWORD="$PASS" pg_dump -U $USER  $DATABASE > $DIR/$DATABASE.sql ;
             finished "Script successfully updated!";
         ;;
-        3)            
-            createBackup;
+        4)            
+            createBackup
         ;;
-        4) 
+        5)
+            createStructureBackup
+        ;;
+        6) 
             if ls $DIR/backups/*.sql 1> /dev/null 2>&1; then
                 FILE="$(ls -t $DIR/backups/*.sql | head -n1)";
                 #ls -t $DIR/backups/*.sql | head -n1 |awk '{printf("newest file: %s",$0)}'
@@ -169,10 +208,19 @@ do
                 error "Doesn't exist any backup file.";
             fi        
         ;;
-        5)
+        7)
             head;
             subHead;
             editSettings;
+        ;;
+        8)
+            createDataBackup
+        ;;
+        9)
+            updateData
+        ;;
+        10)
+            dropCreate
         ;;
         H|h)
             help;
